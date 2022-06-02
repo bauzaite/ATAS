@@ -31,12 +31,14 @@ Only use for the WSOP PKCS#11 library that is written in C and has already been 
 Input:
 
 void WSOPC_Function(char * dst){
+
 	strcpy(dst, "hello");
 }
 
 Output:
 
 void WSOPC_Function(char * dst){
+
 	// ☠ if (NULL_PTR != dst){
 		strcpy(dst, "hello"); // ☠ strncpy(dst, "hello", /*strlen(dst)*/)
 	// ☠ }
