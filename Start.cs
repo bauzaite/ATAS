@@ -1,3 +1,24 @@
+Įgalinkite „Gmail“ darbalaukio pranešimus.
+   Gerai  Ne, dėkui
+Meet
+Naujas susitikimas
+Prisijungti
+Hangout
+
+1 iš 11 821
+hi
+Gautieji
+
+Vaiva Bauzaite
+Priedai
+20:37 (prieš 13 minučių)
+skirta aš
+
+ 
+
+Any email and files/attachments transmitted with it are confidential and are intended solely for the use of the individual or entity to whom they are addressed. If this message has been sent to you in error, you must not copy, distribute or disclose of the information it contains. Please notify Entrust immediately and delete the message from your system.
+5 priedai
+Received, thank you.Hi, I got it.Got it, thanks!
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,12 +26,17 @@ using System.Text;
 using System.IO;
 using fixStrings;
 using checkParams;
+using checkInitVariables;
 
 // TODO: extensive testing, black, white box ones
 // - perf tests - the strcpy check takes 2s to process a 1000 line file
+// theres no try catch anywhere, im just assuming it all works!
 
 namespace Start
 {
+    /// <summary>
+    /// Information about each function inside file sent by the user.
+    /// </summary>
     public struct functionInfo
     {
         public string name;
@@ -20,20 +46,30 @@ namespace Start
         public List<string> contents;
     }
 
+    /// <summary>
+    /// This class saves all relevant information about the code in the file
+    /// sent by the user. It then execures requested checks on the code that
+    /// was set in the flags inside the script prior executing.
+    /// </summary>
     public class Start
     {
-        static List<functionInfo> allFunctions = new List<functionInfo>();
-        static string ctagLocation = "";
+        public static List<functionInfo> allFunctions = new List<functionInfo>();
         static public string fileLocation = "";
         static public int changesCommented = 0;
-        static int fixStrcpy = 0;
-        static int initAllVar = 0;
-        static int checkParamNotNull = 0;
+        static string ctagLocation = "";
         static int addWinStrcpy = 0;
+        static int fixStrcpy = 0;
 
+        /// <summary>
+        /// Saves relevant data in file and performs check
+        /// according to the flags set.
+        /// </summary>
+        /// <param name="args">File location and flags sent by user from script and cmd</param>
         static void Main(string[] args)
         {
-            fileLocation = args[0];
+            int initAllVar = 0;
+            int checkParamNotNull = 0;
+            //fileLocation = args[0];
             try
             {
                 fixStrcpy = Int32.Parse(args[1]);
@@ -45,9 +81,6 @@ namespace Start
             catch (System.IndexOutOfRangeException)
             {
                 Console.WriteLine("Flags are not set, turning everything on.");
-            }
-            finally
-            {
                 changesCommented = 1;
                 fixStrcpy = 1;
                 initAllVar = 1;
@@ -67,6 +100,10 @@ namespace Start
             {
                 allParamsCheck();
             }
+            if (addWinStrcpy == 1)
+            {
+                strCpyUsedCheck();
+            }
             /*
             if (initAllVar == 1)
             {
@@ -75,10 +112,15 @@ namespace Start
             */
         }
 
+        /// <summary>
+        /// Reads each function in file sent by the user and
+        /// extracts relavant information and saves it into a list
+        /// of stucts.
+        /// </summary>
         static void initialise()
         {
-            //ctagLocation = @"C:\Users\bauzaiv\ctag.txt";
-            //fileLocation = @"C:\Users\bauzaiv\testData.txt";
+            ctagLocation = @"C:\Users\bauzaiv\ctag.txt";
+            fileLocation = @"C:\Users\bauzaiv\testData.txt";
             string[] ctagOutput = System.IO.File.ReadAllLines(ctagLocation);
 
 
@@ -87,7 +129,7 @@ namespace Start
 
             foreach (string line in ctagOutput)
             {
-                // save function name, start , end
+                // Try to save function information else, skip to next one.
                 try
                 {
                     functionInfo.name = line.Split('\t')[0].Trim();
@@ -98,9 +140,9 @@ namespace Start
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Error: Ctag filtering is probbably incorrect, try ctags --fields=+ne -o - --sort=yes");
-                    Console.WriteLine("{0}", e);
-                    System.Environment.Exit(0);
+                    Console.WriteLine("Error: Tool cannot process ctags filter, skipping to the next function.");
+                    Console.WriteLine("Function skipped: " + line);
+                    continue;
                 }
 
                 // go inside the specified c file and save that functions contents.
@@ -110,10 +152,13 @@ namespace Start
                     functionInfo.contents.Add(System.IO.File.ReadLines(fileLocation).Skip(lineLocation).Take(1).First());
                     lineLocation++;
                 }
+
+                // add it to the list
                 allFunctions.Add(functionInfo);
+
+                // clear function information we just extracted since it has been saved in the list
                 functionInfo = default(functionInfo);
                 functionInfo.contents = new List<string>();
-
             }
 
         }
@@ -124,15 +169,20 @@ namespace Start
         /// </summary>
         static void strCpyUsedCheck()
         {
-            foreach (functionInfo function in allFunctions)
+            //foreach (functionInfo function in allFunctions)
+            for(int i = 0; i < allFunctions.Count; i++)
             {
-                for (int line = 0; line < function.length; line++)
+                for (int line = 0; line < allFunctions[i].length; line++)
                 {
                     // If user used strcpy in the function and program hasn't provided a fix,   <- BUG: what if it checked and there was no problem?
                     // check the strcpy use is safe and provide any solutions.
-                    if (function.contents[line].Contains("strcpy") && !function.contents[line].Contains("☠"))
+                    if (allFunctions[i].contents[line].Contains("strcpy") && !allFunctions[i].contents[line].Contains("☠") && 1 == fixStrcpy)
                     {
-                        fixStrings.checkStrcpy.strCpyUsed(function, function.contents[line], line);
+                        fixStrings.checkStrcpy.strCpyUsed(allFunctions[i], allFunctions[i].contents[line], line);
+                    }
+                    else if (allFunctions[i].contents[line].Contains("strncpy") && !allFunctions[i].contents[line].Contains("☠") && 1 == addWinStrcpy) // I didnt make a new func for this since I though id save some checcking for the program
+                    {
+                         checkInitVariables.supportWinStrncpy_s.addWinStrncpy_s(allFunctions[i], allFunctions[i].contents[line], line);
                     }
                 }
             }
@@ -144,16 +194,17 @@ namespace Start
         /// </summary>
         static void allParamsCheck()
         {
-            foreach (functionInfo function in allFunctions)
+           // foreach (functionInfo function in allFunctions) // super interesting bug here!!! the foreach was okay with 1 change in allFunctions but then complained about the list changing
+            for(int i =0; i < allFunctions.Count; i++)
             {
-                string functionHead = function.contents[0] + function.contents[1] + function.contents[2]; // some functions 'heads' spread up to 3 lines. test this later
+                string functionHead = allFunctions[i].contents[0] + allFunctions[i].contents[1] + allFunctions[i].contents[2]; // some functions 'heads' spread up to 3 lines. test this later
                 //  Perform parameter checking if a function is WSOPC type and has params sent in   -> BUG(?): every wsopc function will have params sent in
                 if (functionHead.Contains("WSOPC") && (0 == Utilities.all.paramsAreSentToFunction(functionHead)))
                 {
-                    checkParams.checkParams.notNull(function, functionHead);
+                    // TODO: checkDoesntContainSkull(); // Actually, i dont need this since the program will know if checking has been done.
+                    checkParams.checkParams.notNull(allFunctions[i], functionHead);
                 }
             }
-
         }
     }
 }
