@@ -1,24 +1,4 @@
-Įgalinkite „Gmail“ darbalaukio pranešimus.
-   Gerai  Ne, dėkui
-Meet
-Naujas susitikimas
-Prisijungti
-Hangout
 
-1 iš 11 821
-hi
-Gautieji
-
-Vaiva Bauzaite
-Priedai
-20:37 (prieš 13 minučių)
-skirta aš
-
- 
-
-Any email and files/attachments transmitted with it are confidential and are intended solely for the use of the individual or entity to whom they are addressed. If this message has been sent to you in error, you must not copy, distribute or disclose of the information it contains. Please notify Entrust immediately and delete the message from your system.
-5 priedai
-Received, thank you.Hi, I got it.Got it, thanks!
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
