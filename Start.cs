@@ -8,10 +8,6 @@ using fixStrings;
 using checkParams;
 using checkInitVariables;
 
-// TODO: extensive testing, black, white box ones
-// - perf tests - the strcpy check takes 2s to process a 1000 line file
-// theres no try catch anywhere, im just assuming it all works!
-
 namespace Start
 {
     /// <summary>
@@ -49,7 +45,7 @@ namespace Start
         {
             int initAllVar = 0;
             int checkParamNotNull = 0;
-            //fileLocation = args[0];
+            fileLocation = args[0];
             try
             {
                 fixStrcpy = Int32.Parse(args[1]);
@@ -99,10 +95,7 @@ namespace Start
         /// </summary>
         static void initialise()
         {
-            ctagLocation = @"C:\Users\bauzaiv\ctag.txt";
-            fileLocation = @"C:\Users\bauzaiv\testData.txt";
             string[] ctagOutput = System.IO.File.ReadAllLines(ctagLocation);
-
 
             functionInfo functionInfo = new functionInfo();
             functionInfo.contents = new List<string>();
