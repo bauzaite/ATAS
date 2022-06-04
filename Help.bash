@@ -1,7 +1,7 @@
 # Prerequisites:                          -    ╔══╗
 # mono                                    -    ╚╗╔╝
 # C# v7                                   -    ╔╝(¯`v´¯)
-# ctag gets confused with gtest syntax    -    ╚══`.¸.Defensive Programming
+# use on c files only                     -    ╚══`.¸.Defensive Programming
 
 #!/bin/bash
 # set your flags!
