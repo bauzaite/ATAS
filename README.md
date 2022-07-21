@@ -25,9 +25,9 @@ Only use for the WSOP PKCS#11 library that is written in C and has already been 
 3) Press CTRL + F over <filename.c> and search for "☠" to see any suggested improvements by the tool.
 
 ## Prerquisites
-Mono
-C# v7
-ctags
+- Mono
+- C# v7
+- ctags
 
 ## Example Outpput
 Input:
