@@ -38,7 +38,17 @@ void WSOPC_Function(char * dst){
 }
 ```
 
-Output:
+Output if FIXES_IN_COMMENT=0:
+```
+void WSOPC_Function(char * dst){
+
+	if (NULL_PTR != dst){ // ☠ 
+		strncpy(dst, "hello", /*strlen(dst)*/);  // ☠
+	} // ☠
+}
+```
+
+Output if FIXES_IN_COMMENT=1:
 ```
 void WSOPC_Function(char * dst){
 
