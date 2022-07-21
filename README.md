@@ -20,7 +20,7 @@ Only use for the WSOP PKCS#11 library that is written in C and has already been 
 
 1) Set flags inside the ASAT.sh script
 
-2) Run command:$ ./Helper <filename.c>
+2) Run command:$ ./ASAT <filename.c>
 
 3) Press CTRL + F over <filename.c> and search for "☠" to see any suggested improvements by the tool.
 
