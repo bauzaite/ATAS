@@ -1,5 +1,3 @@
-# 🚧 WIP! Under Construction! 🚧
-
 ## Automated Static Analysis Tool
 This is not your average Static Analysis Tool. This tool has been tailored for team wildcat's
 PKCS#11 library. It aims to identify and fix general mistakes developers make when making new changes
@@ -13,21 +11,25 @@ and can therefore apply an accurate fix.
 
 This tool is aimed to perform static analysis code on C programming files.
 It aims to automatically identify and fix:
-- Unsafe use of strcpy (done) 
-- Sent pointers that arent checked (done)
-- Uninitialised variables (in progress)
-- Unsafe use of strcpy for windows builds (not started)
+- Unsafe use of strcpy 
+- Sent pointers that arent checked
+- Unsafe use of strcpy for windows builds
 
 ## Usage
 Only use for the WSOP PKCS#11 library that is written in C and has already been compiled with GCCv9.4.0.
 
-1) Set flags inside the Helper.sh script
+1) Set flags inside the ASAT.sh script
 
 2) Run command:$ ./Helper <filename.c>
 
 3) Press CTRL + F over <filename.c> and search for "☠" to see any suggested improvements by the tool.
 
-## Example
+## Prerquisites
+Mono
+C# v7
+ctags
+
+## Example Outpput
 Input:
 ```
 void WSOPC_Function(char * dst){
