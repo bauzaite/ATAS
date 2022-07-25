@@ -80,12 +80,6 @@ namespace Start
             {
                 strCpyUsedCheck();
             }
-            /*
-            if (initAllVar == 1)
-            {
-                initVarsCheck();
-            }
-            */
         }
 
         /// <summary>
