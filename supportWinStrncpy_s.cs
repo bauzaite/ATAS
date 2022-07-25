@@ -14,7 +14,7 @@ namespace checkInitVariables
 
         /// <summary>
         /// Provide windows build support by turning:
-        /// strncpy(dst, src, strlen(dst)) into strncpy_s(dst, strlen(dst), src, strlen(dst)).
+        /// strncpy(dst, src, strlen(dst)) into strncpy_s(dst, strlen(dst), src, count).
         /// </summary>
         /// <param name="function">function to edit</param>
         /// <param name="strncpyLine">The line containing the strncpy statement</param>
