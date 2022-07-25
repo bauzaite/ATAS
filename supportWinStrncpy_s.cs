@@ -25,9 +25,9 @@ namespace checkInitVariables
             string strcpyLineMark = "";
             string desinationName = strncpyLine.Split('(', ',')[1].Trim();
             string source = strncpyLine.Split(',', ',')[1].Trim();
-            string destinationSize = strncpyLine.Split(',', ')')[2].Trim();
+            string count = strncpyLine.Split(',', ')')[2].Trim();
             string tab = strncpyLine.Split('s')[0];
-            string strncpy_sLine = tab + "strncpy_s(" + desinationName + ", " + destinationSize + ", " + source + ", " + destinationSize + ");";
+            string strncpy_sLine = tab + "strncpy_s(" + desinationName + ", /* strlen(" + desinationName + ") */, " + source + ", " + count + ");";
 
             // Create array to apply into the file.
             if (Start.Start.changesCommented == 1)
