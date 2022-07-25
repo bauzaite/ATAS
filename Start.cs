@@ -139,7 +139,7 @@ namespace Start
             {
                 for (int line = 0; line < allFunctions[i].length; line++)
                 {
-                    // If user used strcpy in the function and program hasn't provided a fix,   <- BUG: what if it checked and there was no problem?
+                    // If user used strcpy in the function and program hasn't provided a fix,
                     // check the strcpy use is safe and provide any solutions.
                     if (allFunctions[i].contents[line].Contains("strcpy") && !allFunctions[i].contents[line].Contains("☠") && 1 == fixStrcpy)
                     {
@@ -159,7 +159,6 @@ namespace Start
         /// </summary>
         static void allParamsCheck()
         {
-           // foreach (functionInfo function in allFunctions) // super interesting bug here!!! the foreach was okay with 1 change in allFunctions but then complained about the list changing
             for(int i =0; i < allFunctions.Count; i++)
             {
                 string functionHead = allFunctions[i].contents[0] + allFunctions[i].contents[1] + allFunctions[i].contents[2]; // some functions 'heads' spread up to 3 lines. test this later
