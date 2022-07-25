@@ -40,9 +40,8 @@ namespace Start
         /// according to the flags set.
         /// </summary>
         /// <param name="args">File location and flags sent by user from script and cmd</param>
-        static void Main()
+        static void Main(string[] args)
         {
-            string[] args = 0;
             int initAllVar = 0;
             int checkParamNotNull = 0;
             fileLocation = args[0];
