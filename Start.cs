@@ -1,5 +1,4 @@
-
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,8 +40,9 @@ namespace Start
         /// according to the flags set.
         /// </summary>
         /// <param name="args">File location and flags sent by user from script and cmd</param>
-        static void Main(string[] args)
+        static void Main()
         {
+            string[] args = 0;
             int initAllVar = 0;
             int checkParamNotNull = 0;
             fileLocation = args[0];
@@ -89,9 +89,13 @@ namespace Start
         /// </summary>
         static void initialise()
         {
+            ctagLocation = @"ctag.txt";
             string[] ctagOutput = System.IO.File.ReadAllLines(ctagLocation);
+
+
             functionInfo functionInfo = new functionInfo();
             functionInfo.contents = new List<string>();
+
             foreach (string line in ctagOutput)
             {
                 // Try to save function information else, skip to next one.
@@ -134,7 +138,6 @@ namespace Start
         /// </summary>
         static void strCpyUsedCheck()
         {
-            //foreach (functionInfo function in allFunctions)
             for(int i = 0; i < allFunctions.Count; i++)
             {
                 for (int line = 0; line < allFunctions[i].length; line++)
@@ -145,9 +148,22 @@ namespace Start
                     {
                         fixStrings.checkStrcpy.strCpyUsed(allFunctions[i], allFunctions[i].contents[line], line);
                     }
-                    else if (allFunctions[i].contents[line].Contains("strncpy") && !allFunctions[i].contents[line].Contains("☠") && 1 == addWinStrcpy) 
+                    else if (allFunctions[i].contents[line].Contains("strncpy") && !allFunctions[i].contents[line].Contains("☠") && 1 == addWinStrcpy)
                     {
-                         checkInitVariables.supportWinStrncpy_s.addWinStrncpy_s(allFunctions[i], allFunctions[i].contents[line], line);
+                        int winSupportPresent = 0;
+                        // check if there is windows support inside the function already
+                        for (int lines = 0; lines < allFunctions[i].length; lines++)
+                        { 
+                            if (allFunctions[i].contents[line].Contains("strncpy_s"))
+                            {
+                                winSupportPresent = 1;
+                            }
+                        }
+
+                       if (winSupportPresent == 0)
+                       {
+                        checkInitVariables.supportWinStrncpy_s.addWinStrncpy_s(allFunctions[i], allFunctions[i].contents[line], line);
+                       }
                     }
                 }
             }
@@ -161,11 +177,11 @@ namespace Start
         {
             for(int i =0; i < allFunctions.Count; i++)
             {
-                string functionHead = allFunctions[i].contents[0] + allFunctions[i].contents[1] + allFunctions[i].contents[2]; // some functions 'heads' spread up to 3 lines. test this later
-                //  Perform parameter checking if a function is WSOPC type and has params sent in   -> BUG(?): every wsopc function will have params sent in
+                // some functions 'heads' spread up to 3 lines.
+                string functionHead = allFunctions[i].contents[0] + allFunctions[i].contents[1] + allFunctions[i].contents[2]; 
+                //  Perform parameter checking if a function is WSOPC type and has params sent in 
                 if (functionHead.Contains("WSOPC") && (0 == Utilities.all.paramsAreSentToFunction(functionHead)))
                 {
-                    // TODO: checkDoesntContainSkull(); // Actually, i dont need this since the program will know if checking has been done.
                     checkParams.checkParams.notNull(allFunctions[i], functionHead);
                 }
             }
