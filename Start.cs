@@ -90,10 +90,8 @@ namespace Start
         static void initialise()
         {
             string[] ctagOutput = System.IO.File.ReadAllLines(ctagLocation);
-
             functionInfo functionInfo = new functionInfo();
             functionInfo.contents = new List<string>();
-
             foreach (string line in ctagOutput)
             {
                 // Try to save function information else, skip to next one.
