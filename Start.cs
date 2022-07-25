@@ -145,7 +145,7 @@ namespace Start
                     {
                         fixStrings.checkStrcpy.strCpyUsed(allFunctions[i], allFunctions[i].contents[line], line);
                     }
-                    else if (allFunctions[i].contents[line].Contains("strncpy") && !allFunctions[i].contents[line].Contains("☠") && 1 == addWinStrcpy) // I didnt make a new func for this since I though id save some checcking for the program
+                    else if (allFunctions[i].contents[line].Contains("strncpy") && !allFunctions[i].contents[line].Contains("☠") && 1 == addWinStrcpy) 
                     {
                          checkInitVariables.supportWinStrncpy_s.addWinStrncpy_s(allFunctions[i], allFunctions[i].contents[line], line);
                     }
