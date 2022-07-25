@@ -120,9 +120,6 @@ namespace checkParams
             {
                 createParamsFix(function);
             }
-            // TODO:
-            // currently we have - if it has 'PTR' in the type then create  'parameter.name != null_ptr 
-            // make a new - if it has 'HANDLE' in the type then create 'parameter.name != CK_INVALID_HANDLE' check? Outside scope
 
         }
 
